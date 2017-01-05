@@ -1,6 +1,8 @@
 /**
  * @fileoverview - sample tag
  */
+ import action from '../action';
+
 <sample-tag>
   
   <input type="text" id="_input" value={ txt }>
@@ -11,9 +13,10 @@
     _this.txt = "sample";
 
     _this.on('mount', () => {
-      const { input$ } = opts;
-      input$().subscribe((val) => {
-        _this.txt = val.target.value;
+      const { input$, obs$ } = opts;
+      input$();
+      obs$.on(action.sampleTag.update, (txt) => {
+        _this.txt = txt;
         _this.update();
       });
     });
